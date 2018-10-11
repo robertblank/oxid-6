@@ -272,7 +272,7 @@ class fcpoconfigexport extends oxBase
      */
     protected function _fcpoSetShopConfigVars($aShopIds) 
     {
-        $oConf = $this->getConfig();
+        $oConf = \OxidEsales\Eshop\Core\Registry::getConfig();
 
         foreach ($aShopIds as $sShopId) {
             $oShop = oxNew('oxshop');
@@ -396,7 +396,7 @@ class fcpoconfigexport extends oxBase
      */
     protected function _fcpoGetShopXmlProtect() 
     {
-        $oConf = $this->getConfig();
+        $oConf = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sXml = $this->_sT . $this->_sT . "<protect>" . $this->_sN;
         $sXml .= $this->_sT . $this->_sT . $this->_sT . "<consumerscore>" . $this->_sN;
         $sXml .= $this->_sT . $this->_sT . $this->_sT . $this->_sT . "<active>" . ($oConf->getShopConfVar('sFCPOBonicheck', $sShopId) == '-1' ? '0' : '1') . "</active>" . $this->_sN;
@@ -645,7 +645,7 @@ class fcpoconfigexport extends oxBase
                 $aModules[$sKey] = '<![CDATA[' . $sValue . ']]>';
             }
         } else {
-            $sModulesDir = $this->getConfig()->getModulesDir();
+            $sModulesDir = \OxidEsales\Eshop\Core\Registry::getConfig()->getModulesDir();
             /** @var oxmodulelist $oModuleList */
             $oModuleList = $this->_oFcpoHelper->getFactoryObject("oxModuleList");
             $aOxidModules = $oModuleList->getModulesFromDir($sModulesDir);

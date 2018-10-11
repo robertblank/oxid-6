@@ -122,7 +122,7 @@ class fcpayoneiframe extends oxUBase
                 return $oOrder->fcHandleAuthorization(true);
             }
             */
-            $oConfig    = $this->getConfig();
+            $oConfig    = \OxidEsales\Eshop\Core\Registry::getConfig();
             $oUtils     = $this->_oFcpoHelper->fcpoGetUtils();
             $oUtils->redirect($oConfig->getShopCurrentURL().'&cl=payment');
         }

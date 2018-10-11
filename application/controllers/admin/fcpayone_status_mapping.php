@@ -118,7 +118,7 @@ class fcpayone_status_mapping extends fcpayone_admindetails
      */
     public function getShopStatusList() 
     {
-        $aFolders = $this->getConfig()->getConfigParam('aOrderfolder');
+        $aFolders = \OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('aOrderfolder');
         return $aFolders;
     }
 

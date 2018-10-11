@@ -115,7 +115,7 @@ class fcpopaypal extends oxBase
     {
         $blLogoEnteredAndExisting = $this->_fcpoGetLogoEnteredAndExisting($sPoLogo);
         if ($blLogoEnteredAndExisting) {
-            $oConfig = $this->getConfig();
+            $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
             $sShopURL = $oConfig->getCurrentShopUrl(false);
             $aLogo['logo'] = $sShopURL . $this->_sPayPalExpressLogoPath . $sPoLogo;
         }

@@ -71,7 +71,7 @@ class fcpayone_boni_main extends fcpayone_admindetails
 
         $this->_aViewData["subjlang"] = $iLang;
 
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sShopId = $oConfig->getShopId();
 
         $aConfigs = $this->_oFcpoConfigExport->fcpoGetConfig($sShopId, $iLang);

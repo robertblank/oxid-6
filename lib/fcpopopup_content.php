@@ -133,7 +133,7 @@ class fcpopopup_content extends oxBase
      */
     protected function _fcpoReturnErrorMessage($sMessage) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         if (!$oConfig->isUtf()) {
             $sMessage = utf8_encode($sMessage);
         }
@@ -154,7 +154,7 @@ class fcpopopup_content extends oxBase
      */
     protected function _fcpoGetPayolutionCredentials() 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $aCredentials = array();
         $aCredentials['user'] = (string)$oConfig->getConfigParam('sFCPOPayolutionAuthUser');
         $aCredentials['pass'] = (string)$oConfig->getConfigParam('sFCPOPayolutionAuthSecret');

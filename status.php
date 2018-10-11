@@ -81,7 +81,7 @@ class fcPayOneTransactionStatusHandler extends oxBase
             $mValue = filter_input(INPUT_POST, $sKey);
         }
         if ($mValue ) {
-            if($this->getConfig()->isUtf() ) {
+            if(\OxidEsales\Eshop\Core\Registry::getConfig()->isUtf() ) {
                 $mValue = utf8_encode($mValue);
             }
             $sReturn = $mValue;
@@ -112,7 +112,7 @@ class fcPayOneTransactionStatusHandler extends oxBase
         $aShops = $this->_getShopList();
         $aParams = array();
         foreach ($aShops as $sShop) {
-            $mValue = $this->getConfig()->getShopConfVar($sParam, $sShop);
+            $mValue = \OxidEsales\Eshop\Core\Registry::getConfig()->getShopConfVar($sParam, $sShop);
             if($mValue) {
                 $aParams[$sShop] = $mValue;
             }

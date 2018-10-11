@@ -181,7 +181,7 @@ class fcpohelper extends oxBase
      */
     public function fcpoGetConfig() 
     {
-        return $this->getConfig();
+        return \OxidEsales\Eshop\Core\Registry::getConfig();
     }
 
     /**
@@ -217,7 +217,7 @@ class fcpohelper extends oxBase
      */
     public function fcpoGetRequestParameter($sParameter) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
 
         if ($this->_fcUseDeprecatedInstantiation()) {
             $mReturn = $oConfig->getParameter($sParameter);
@@ -432,7 +432,7 @@ class fcpohelper extends oxBase
      */
     public function fcpoGetIntegratorVersion() 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sEdition = $oConfig->getActiveShop()->oxshops__oxedition->value;
         $sVersion = $oConfig->getActiveShop()->oxshops__oxversion->value;
         $sIntegratorVersion = $sEdition . $sVersion;
@@ -448,7 +448,7 @@ class fcpohelper extends oxBase
      */
     public function fcpoGetIntShopVersion() 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sVersion = $oConfig->getActiveShop()->oxshops__oxversion->value;
         $iVersion = (int) str_replace('.', '', $sVersion);
         // fix for ce/pe 4.10.0+
@@ -470,7 +470,7 @@ class fcpohelper extends oxBase
      */
     public function fcpoGetShopName() 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
 
         return $oConfig->getActiveShop()->oxshops__oxname->value;
     }
@@ -518,7 +518,7 @@ class fcpohelper extends oxBase
      */
     public function fcpoGetIntegratorId() 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
 
         $sEdition = $oConfig->getActiveShop()->oxshops__oxedition->value;
         if ($sEdition == 'CE') {
@@ -539,7 +539,7 @@ class fcpohelper extends oxBase
      */
     protected function _fcUseDeprecatedInstantiation() 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         if ((version_compare($oConfig->getVersion(), "4.8.0") < 1 && $oConfig->getEdition() == "CE") 
             || (version_compare($oConfig->getVersion(), "4.8.0") < 1 && $oConfig->getEdition() == "PE") 
             || (version_compare($oConfig->getVersion(), "5.1.0") < 1 && $oConfig->getEdition() == "EE")

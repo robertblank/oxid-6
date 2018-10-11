@@ -135,7 +135,7 @@ class fcpoRequest extends oxSuperCfg
      */
     public function __construct() 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $this->_oFcpoHelper = oxNew('fcpohelper');
 
         $this->addParameter('mid', $oConfig->getConfigParam('sFCPOMerchantID')); //PayOne Merchant ID
@@ -245,7 +245,7 @@ class fcpoRequest extends oxSuperCfg
     {
         $this->_checkAddress($oOrder, $oUser);
 
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
 
         $this->addParameter('aid', $oConfig->getConfigParam('sFCPOSubAccountID')); //ID of PayOne Sub-Account
         $this->addParameter('reference', $sRefNr);
@@ -262,7 +262,7 @@ class fcpoRequest extends oxSuperCfg
         $blIsWalletTypePaymentWithDelAddress = (
                 $oOrder->oxorder__oxpaymenttype->value == 'fcpopaydirekt' ||
                 $oOrder->fcIsPayPalOrder() === true &&
-                $this->getConfig()->getConfigParam('blFCPOPayPalDelAddress') === true
+                \OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('blFCPOPayPalDelAddress') === true
                 );
 
         if ($oOrder->oxorder__oxdellname->value != '') {
@@ -307,7 +307,7 @@ class fcpoRequest extends oxSuperCfg
 
         $blPaymentTypeKnown = $this->setPaymentParameters($oOrder, $aDynvalue, $sRefNr);
 
-        if ($oOrder->isDetailedProductInfoNeeded() || ($blIsPreauthorization === false && $this->getConfig()->getConfigParam('blFCPOSendArticlelist') === true)) {
+        if ($oOrder->isDetailedProductInfoNeeded() || ($blIsPreauthorization === false && \OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('blFCPOSendArticlelist') === true)) {
             $this->addProductInfo($oOrder);
         }
 
@@ -338,7 +338,7 @@ class fcpoRequest extends oxSuperCfg
      */
     protected function _setPaymentParamsDebitNote($aDynvalue) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $blFCPODebitBICMandatory = $oConfig->getConfigParam('blFCPODebitBICMandatory');
 
         $this->addParameter('clearingtype', 'elv'); //Payment method
@@ -496,7 +496,7 @@ class fcpoRequest extends oxSuperCfg
      */
     protected function _addRedirectUrls($sAbortClass, $sRefNr = false, $blIsPayPalExpress = false) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $oSession = $this->_oFcpoHelper->fcpoGetSession();
         $sShopURL = $oConfig->getCurrentShopUrl();
 
@@ -760,7 +760,7 @@ class fcpoRequest extends oxSuperCfg
      */
     protected function _getFrontendHash($aHashParams) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         ksort($aHashParams, SORT_STRING);
         unset($aHashParams['key']);
         $aHashParams['key'] = $oConfig->getConfigParam('sFCPOPortalKey');
@@ -824,7 +824,7 @@ class fcpoRequest extends oxSuperCfg
      */
     public function fcpoIsB2B($oUser) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $blB2BModeActive = $oConfig->getConfigParam('blFCPOPayolutionB2BMode');
 
         if ($blB2BModeActive) {
@@ -850,7 +850,7 @@ class fcpoRequest extends oxSuperCfg
     protected function _fcpoAddRatePayParameters($oOrder) 
     {
         // needed objects and data
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $oSession = $this->_oFcpoHelper->fcpoGetSession();
         $oRatePay = oxNew('fcporatepay');
         $sPaymentId = $oOrder->oxorder__oxpaymenttype->value;
@@ -953,7 +953,7 @@ class fcpoRequest extends oxSuperCfg
      */
     protected function _fcpoGetCentPrice($mValue) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $dBruttoPrice = 0.00;
         if ($mValue instanceof oxBasketItem) {
             $oPrice = $mValue->getPrice();
@@ -981,7 +981,7 @@ class fcpoRequest extends oxSuperCfg
      */
     protected function _fcpoAddPayolutionParameters($oOrder) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sPaymentId = $oOrder->oxorder__oxpaymenttype->value;
         $oUser = $oOrder->getOrderUser();
         $sWorkorderId = $this->_oFcpoHelper->fcpoGetSessionVariable('payolution_workorderid');
@@ -1412,7 +1412,7 @@ class fcpoRequest extends oxSuperCfg
         }
 
         // Bedingung $amount == $oOrder->oxorder__oxorder__oxtotalordersum->value nur solange wie Artikelliste nicht f?r Multi-Capture m?glich
-        if ($oOrder->isDetailedProductInfoNeeded() || ($this->getConfig()->getConfigParam('blFCPOSendArticlelist') === true && $dAmount == $oOrder->oxorder__oxtotalordersum->value)) {
+        if ($oOrder->isDetailedProductInfoNeeded() || (\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('blFCPOSendArticlelist') === true && $dAmount == $oOrder->oxorder__oxtotalordersum->value)) {
             $dAmount = $this->addProductInfo($oOrder, $aPositions);
             if ($aPositions !== false) {
                 //partial-amount
@@ -1698,7 +1698,7 @@ class fcpoRequest extends oxSuperCfg
      */
     public function sendStandardRequestAddresscheck($oUser, $blCheckDeliveryAddress = false) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $this->addParameter('request', 'addresscheck');
         $this->addParameter('mode', $oConfig->getConfigParam('sFCPOBoniOpMode')); //Operationmode live or test
         $this->addParameter('aid', $oConfig->getConfigParam('sFCPOSubAccountID')); //ID of PayOne Sub-Account
@@ -1749,7 +1749,7 @@ class fcpoRequest extends oxSuperCfg
      * @return array
      */
     protected function _fcpoCheckUseFallbackBoniversum($aResponse) {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sScore = $aResponse['score'];
         $sAddresscheckType = $this->_fcpoGetAddressCheckType();
 
@@ -1774,7 +1774,7 @@ class fcpoRequest extends oxSuperCfg
      *
      */
     protected function _fcpoGetAddressCheckType() {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sBoniCheckType = $oConfig->getConfigParam('sFCPOBonicheck');
         $sAddressCheckType = $oConfig->getConfigParam('sFCPOAddresscheck');
 
@@ -1810,7 +1810,7 @@ class fcpoRequest extends oxSuperCfg
      */
     protected function _fcpoNotBlockingPersonstatus($aResponse) 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sFCPOAddresscheck = $oConfig->getConfigParam('sFCPOAddresscheck');
         $sResponsePersonstatus = $aResponse['personstatus'];
 
@@ -1931,7 +1931,7 @@ class fcpoRequest extends oxSuperCfg
     {
         // Consumerscore only allowed in germany
         if ($this->getCountryIso2($oUser->oxuser__oxcountryid->value) == 'DE') {
-            $oConfig = $this->getConfig();
+            $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
             $this->addParameter('request', 'consumerscore');
             $this->addParameter('mode', $oConfig->getConfigParam('sFCPOBoniOpMode')); //Operationmode live or test
             $this->addParameter('aid', $oConfig->getConfigParam('sFCPOSubAccountID')); //ID of PayOne Sub-Account
@@ -2189,7 +2189,7 @@ class fcpoRequest extends oxSuperCfg
 
     protected function _logRequest($sResponse, $sStatus = '') 
     {
-        $oConfig = $this->getConfig();
+        $oConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
         $oDb = oxDb::getDb();
         $sRequest = serialize($this->_aParameters);
         $sQuery = " INSERT INTO fcporequestlog (
@@ -2428,7 +2428,7 @@ class fcpoRequest extends oxSuperCfg
                     $oDb->Execute($sQuery);
                 }
 
-                $sReturn = $this->getConfig()->getShopUrl() . "modules/fcPayOne/download.php?id=" . $sOrderId;
+                $sReturn = \OxidEsales\Eshop\Core\Registry::getConfig()->getShopUrl() . "modules/fcPayOne/download.php?id=" . $sOrderId;
                 $sStatus = 'SUCCESS';
 
                 $aOutput = array(
@@ -2452,7 +2452,7 @@ class fcpoRequest extends oxSuperCfg
     public function getRefNr($oOrder = false) 
     {
         $oDb = oxDb::getDb();
-        $sRawPrefix = (string) $this->getConfig()->getConfigParam('sFCPORefPrefix');
+        $sRawPrefix = (string) \OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('sFCPORefPrefix');
         $sPrefix = $oDb->quote($sRawPrefix);
 
         if ($oOrder && !empty($oOrder->oxorder__oxordernr->value)) {
